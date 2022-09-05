@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #query{
+            width:200px;
+        }
+        #movies{
+            border: 1px solid black;
+            height:200px;
+            width:200px;
+            border-top:none;
+            overflow: scroll;  
+             /* it will make a scroll behaviour */
+        }
+        #movie_info{
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap:30px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hotstar</h1>
+    <input oninput="debounce(main,1000)" type="text" id="query">
+    <div id="movies" onclick="movieDisplay()"></div>
+    <div id="movie_info"></div>
+</body>
+</html>
+<script>
+    var movies_div=document.getElementById('movies');
+    var movie_info=JSON.parse(localStorage.getItem('movies_List'));
+    let id;
+    async function searchMovies(){
+        try{
+            const query=document.getElementById('query').value;
+        let res=await fetch(`https://www.omdbapi.com/?apikey=6a41ddca&s=${query}`);
+        let data=await res.json();
+        console.log('data:',data);
+        const movies=data.Search;
+        return movies;
+        // appendMovies(movies);
+        } 
+        catch(err){
+            console.log('err:',err);
+        }
+       
+    }
+    function appendMovies(data){
+        // if(data==undefined){
+        //     return false;
+        // }
+        movies_div.innerHTML=null;
+        data.forEach(function (e){
+            let p=document.createElement('p');
+            p.innerText=e.Title;
+            movies_div.append(p);
+        });
+    }
+
+    async function main(){
+        let data=await searchMovies();
+        if(data==undefined){
+            return false;
+        }
+        localStorage.setItem('movies_List',JSON.stringify(data));
+        appendMovies(data);
+    }
+    function debounce(func,delay){
+        if(id){
+            clearTimeout(id);
+        }
+        id=setTimeout(function(){
+            func();
+        },delay);
+    }
+    function movieDisplay(){
+        // console.log(movie_info);
+        document.querySelector('#movie_info').innerHTML=null;
+
+        movie_info.forEach(function(e,i){
+            let box=document.createElement('div');
+            let image=document.createElement('img');
+            image.src=e.Poster;
+            let name=document.createElement('p');
+            name.innerText=e.Title;
+            let year=document.createElement('p');
+            year.innerText=e.Year;
+
+            box.append(image,name,year);
+            document.querySelector('#movie_info').append(box);
+
+        })
+    }
+
+</script>

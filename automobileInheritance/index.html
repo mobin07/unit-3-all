@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    var varna={
+        model:2016,
+        speed:240,
+        wheel:4,
+        
+
+    };
+
+    var swift=Object.create(varna);
+    swift.speed=300;
+    swift.model=2020;
+    console.log(swift);
+    console.log(swift.wheel);
+
+    function car(s,m,w,n){
+        this.speed=s;
+        this.model=m;
+        this.wheel=w;
+        this.name=n;
+    }
+    let jaguar=new car(150,1990,6,'jaguar');
+    car.prototype.description=function(){
+        console.log(`${this.name} has speed ${this.speed} and model ${this.model}`)
+    }
+    // console.log(jaguar);
+    jaguar.description();
+
+   
+    let xylo=Object.create(jaguar);
+    console.log(xylo);
+    xylo.speed=250;
+    console.log(jaguar.speed,xylo.speed);
+
+
+    
+</script>

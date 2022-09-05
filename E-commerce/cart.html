@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container{
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            grid-template-rows: auto;
+            gap:20px;
+        }
+        .product{
+            border: 2px solid red;
+        }
+        #container>div{
+            border: 2px solid red;
+        }
+        #bottom{
+            display: flex;
+            justify-content: space-between;
+        }
+        #pi{
+            height:250px;
+            width:250px
+        }
+        
+
+    </style>
+</head>
+<body>
+    <h1>Cart</h1>
+    <div id="container"></div>
+</body>
+</html>
+<script>
+    var arr=JSON.parse(localStorage.getItem('Products')) || [];
+    var count=localStorage.getItem('count');
+    count.id='counter';
+    console.log(count+'is the count');
+    document.querySelector('h1').innerText='cart has '+count+'items.'
+    
+    window.addEventListener('load',function(){
+        displayArray(arr);
+    })
+
+    
+    function displayArray(arr){
+        document.querySelector('#container').innerHTML='';
+        console.log(arr);
+        arr.map(function(e,i){
+        var box=document.createElement('div');
+        box.class='product';
+        var image=document.createElement('img');
+        image.src=e.imageUrl;
+        image.id='pi'
+
+        var name=document.createElement('p');
+        name.innerText=e.name;
+
+        var category=document.createElement('p');
+        category.innerText=e.category;
+
+        var price=document.createElement('p');
+        price.innerText=e.price;
+
+        var gender=document.createElement('p');
+        gender.innerText=e.gender
+
+        var bottom=document.createElement('div');
+        bottom.id='bottom';
+        var sold=document.createElement('button');
+        sold.innerText=e.sold;
+        sold.id='sold';
+        // sold.style.backgroundColor=gray;
+        // sold.addEventListener('click',function(){
+        //     soldFun(e,i);
+        // })
+        if(e.sold=='true'){
+            sold.style.backgroundColor='red';
+        }else{
+            sold.style.backgroundColor='green';
+        }
+
+        var remove=document.createElement('button');
+        remove.id='remove';
+        remove.innerText='remove';
+        remove.style.backgroundColor='gray';
+        remove.addEventListener('click',function(){
+            removeFun(e,i);
+        })
+        bottom.append(sold,remove);
+
+        box.append(image,name,category,price,gender,bottom)
+        document.querySelector('#container').append(box);
+    
+        
+
+
+        })
+        function removeFun(e,i){
+            arr.splice(i,1);
+            localStorage.setItem('Products',JSON.stringify(arr));
+            var count=arr.length;
+            localStorage.setItem('count',count);
+            displayArray(arr);
+
+        }
+        function soldFun(e,i){
+            // var abc=document.querySelector('#sold');
+            // abc.innerText=e.sold;
+            // if(document.querySelector('#sold')=='true'){
+            //     document.querySelector('#sold').style.backgroundColor='red';
+            // }else{
+            //     document.querySelector('#sold').style.backgroundColor='green';
+
+            // }
+            if(e.sold=='true'){
+                e.style.backgroundColor='red';
+                e.innerText='true'
+            }else{
+                sold.style.backgroundColor='green';
+                sold.innerText='false';
+            }
+
+
+
+
+        }
+       
+
+
+    }
+</script>

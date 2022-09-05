@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container{
+            display: flex;
+            border: 1px solid black;
+        }
+        #input, #output{
+            flex: 1;
+            margin:5%;
+            height: 300px;
+            border:1px solid black
+
+        }
+        #input-text{
+            width: 90%;
+            height:250px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+    <div id="input">
+        <select name="inp_lang" id="inp_lang">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+        </select>
+        <button onclick="Translate()">Translate</button>
+        <textarea name="input-text" id="input-text" oninput="debounce(main,1000)"></textarea>
+    </div>
+   
+    <div id="output">
+        <p id="out_value"></p>
+        <select name="inp_lang" id="out_lang">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+        </select>
+    </div>
+    </div>
+</body>
+</html>
+<script>
+// helper functions
+let di;
+    function read(id){
+        return document.getElementById(id).value;
+    }
+    async function Translate(){
+        try{
+
+        
+        // let input=document.getElementById('input-text').value;
+        // console.log("input:",input)
+        const input=read('input-text');
+        const input_lang=read('inp_lang');
+        const output_lang=read('out_lang');
+        
+
+        const res=await fetch(`https://libretranslate.de/translate`,{
+            method:'POST',
+            body:JSON.stringify({
+               q:input,
+               source:input_lang,
+               target:output_lang,
+               format:"text"
+            }),
+            // additional information about our request that server might need to know
+
+            headers:{
+                "Content-Type":'application/json'
+            }
+        })
+        const data=await res.json();
+        console.log("data",data)
+        document.getElementById('out_value').innerText=data.translatedText;
+    }
+    catch(err){
+        console.log('err:',err)
+    }
+    }
+    async function main(){
+        document.getElementById('out_value').innerText=null;
+
+        Translate();
+    }
+
+    function debounce(func,delay){
+        if(di){
+            clearTimeout(di);
+        }
+        di=setTimeout(function(){
+            func();
+        },delay);
+    }
+
+
+</script>

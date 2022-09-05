@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+function myArray(){
+    Object.defineProperty(this,'length',{
+        value:0,
+        writable:true,
+        enumerable:false
+    });
+    this.length=arguments.length;
+    for(let i=0;i<this.length;i++){
+        this[i]=arguments[i];
+    }
+}
+let a2=new myArray('x','y','z');
+myArray.prototype.push=function(value){
+    let index=this.length;
+    this[index]=value;
+    this.length++;
+
+};
+a2.push('a');
+a2.push('b');
+console.log('a2',Object.values(a2));
+// console.log(a2);
+
+myArray.prototype.pop=function(){
+    let index=this.length-1;
+    delete this[index];
+    this.length--;
+
+};
+a2.pop();
+console.log('a2',Object.values(a2));
+
+myArray.prototype.top=function(){
+    let index=this.length-1;
+    return this[index];
+}
+
+var x=a2.top();
+console.log(x);
+
+myArray.prototype.print=function(){
+    var arr=[];
+    for(let i=0;i<this.length;i++){
+        arr.push(this[i])
+
+    }
+    console.log(arr);
+}
+a2.print();
+
+myArray.prototype.printReverse=function(){
+    arr=[];
+    for(let i=this.length-1;i>=0;i--){
+        arr.push(this[i]);
+    }
+    console.log(arr);
+}
+a2.printReverse();
+
+myArray.prototype.size=function(){
+    return this.length;
+}
+var y=a2.size();
+console.log(y);
+
+</script>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="p" onsubmit="storeProduct(event)">
+        <input type="text" id="name" placeholder="name">
+        <input type="text" id="category" placeholder="category">
+        <input type="text" id="image" placeholder="image url">
+        <input type="text" id="price" placeholder="price">
+        <!-- <input type="text" id="gender"> -->
+        <select id="gender">
+            <option name="" >gender</option>
+            <option name="" value="male">male</option>
+            <option value="female">female</option>
+        </select>
+        <input type="boolean" id="sold" value=false>
+        <input type="submit" value="submit" id="add">
+    </form>
+    <button>Go to cart</button>
+</body>
+</html>
+<script>
+    var arr=JSON.parse(localStorage.getItem('Products')) || [];
+    function product(n,c,i,p,g,s){
+        this.name=n;
+        this.category=c;
+        this.imageUrl=i;
+        this.price=p;
+        this.gender=g;
+        this.sold=s;
+    }
+
+    function storeProduct(e){
+    e.preventDefault();
+
+    var form=document.querySelector('#p');
+    var name=form.name.value;
+    var category=form.category.value;
+    var image=form.image.value;
+    var price=form.price.value;
+    var gender=form.gender.value;
+    var sold=form.sold.value;
+    // console.log(name);
+    let p1=new product(name,category,image,price,gender,sold);
+    arr.push(p1);
+    localStorage.setItem('Products',JSON.stringify(arr));
+    console.log(p1);
+
+    }
+    document.querySelector('button').addEventListener('click',cart)
+    function cart(){
+        window.open('cart.html');
+    }
+
+  
+
+</script>

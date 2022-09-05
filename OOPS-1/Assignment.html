@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>OOPS</h1>
+</body>
+</html>
+<script>
+
+// Problem 1.1
+    class Grandfather{
+        constructor(n,a){
+            this.name=n;
+            this.age=a;
+            this.surname='Memon'
+        }
+    }
+    class Father extends Grandfather{
+        constructor(n,a){
+            super(n,a);
+        }
+    }
+    class Son extends Father{
+        constructor(n,a){
+            super(n,a);
+        }
+    }
+    //here we cannot extends son to grandfather as js do not allow this
+    
+    let c12=new Son('Mobin',24);
+    console.log('c1:',c12);
+    
+    let c2=new Father('rauf',55);
+    console.log('c2:',c2.age);
+
+
+// Problem 1.2
+
+class Cat{
+    constructor(s){
+        this.sound=s;
+    }
+}
+class Tiger extends Cat{
+    constructor(s){
+        super(s)
+    }
+}
+
+let t1=new Tiger('roar');
+console.log(t1.sound);
+
+
+
+// Problem 2
+
+class UserData{
+    constructor(){
+        let name;
+        let age;
+    }
+   
+    setName(n){
+        this.name=n;
+    }
+    getName(){
+        return this.name;
+    }
+    setAge(a){
+        this.age=a;
+    }
+    getAge(){
+        return this.age;
+    }
+}
+
+let c3=new UserData();
+c3.setName('Mobin');
+c3.setAge(24);
+console.log(c3.getName());
+
+
+// Problem 3
+ class UserData{
+     constructor(n,a){
+         this.name=n;
+         this.age=a;
+
+     }
+      run(){
+        console.log(`${this.name} has age of${this.age}`);
+     }
+
+ }
+
+ let c1=new UserData('Mobin',24);
+ c1.run();
+
+
+// Problem 4
+
+class America{
+    constructor(n){
+        this.name=n;
+    }
+    c(){
+        console.log(`${this.name} has currency dollar`)
+    }
+}
+
+class India extends America{
+    // constructor(){
+    //     name:'India';
+    // }
+    c(){
+        console.log(`India has currency Rupee`)
+ 
+    }
+}
+class Japan extends India{
+    // constructor(){
+    //     name:'Japan'
+    // }
+    c(){
+        console.log(`Japan has currency Yen`)
+ 
+    }
+}
+let v1=new India();
+v1.c();
+let v2=new America('america');
+v2.c();
+
+
+
+</script>
